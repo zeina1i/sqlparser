@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"io"
+	"strconv"
 	"unicode"
 )
 
@@ -30,6 +31,40 @@ const (
 	tokenComma                 // comma ,
 	tokenNone                  // None
 )
+
+var tokens = []string{
+	tokenNumber:      "tokenNumber",
+	tokenString:      "tokenString",
+	tokenIdent:       "tokenIdent",
+	tokenPeriod:      ".",
+	tokenEquals:      "=",
+	tokenGreaterThan: ">",
+	tokenLessThan:    "<",
+	tokenPlus:        "+",
+	tokenMinus:       "-",
+	tokenAsterisk:    "*",
+	tokenSlash:       "/",
+	tokenCaret:       "^",
+	tokenPercent:     "%",
+	tokenExclamation: "!",
+	tokenQuestion:    "?",
+	tokenOpenParen:   "(",
+	tokenCloseParen:  ")",
+	tokenComma:       ",",
+	tokenNone:        "",
+}
+
+func (tokType tokenType) String() string {
+	s := ""
+	if 0 <= tokType && tokType < tokenType(len(tokens)) {
+		s = tokens[tokType]
+	}
+	if s == "" {
+		s = "token(" + strconv.Itoa(int(tokType)) + ")"
+	}
+
+	return s
+}
 
 var eof = rune(0)
 
@@ -153,38 +188,38 @@ func (s *Scanner) scanNumber() (tok tokenType, lit string) {
 
 //
 func (s *Scanner) scanSymbol() (tok tokenType, lit string) {
-	ch := s.read()
+	ch := string(s.read())
 	switch ch {
-	case '.':
-		return tokenPeriod, string(ch)
-	case '=':
-		return tokenEquals, string(ch)
-	case '>':
-		return tokenGreaterThan, string(ch)
-	case '<':
-		return tokenLessThan, string(ch)
-	case '-':
-		return tokenMinus, string(ch)
-	case '*':
-		return tokenAsterisk, string(ch)
-	case '/':
-		return tokenSlash, string(ch)
-	case '+':
-		return tokenPlus, string(ch)
-	case '^':
-		return tokenCaret, string(ch)
-	case '%':
-		return tokenPercent, string(ch)
-	case '!':
-		return tokenExclamation, string(ch)
-	case '?':
-		return tokenQuestion, string(ch)
-	case '(':
-		return tokenOpenParen, string(ch)
-	case ')':
-		return tokenCloseParen, string(ch)
-	case ',':
-		return tokenComma, string(ch)
+	case tokenPeriod.String():
+		return tokenPeriod, ch
+	case tokenEquals.String():
+		return tokenEquals, ch
+	case tokenGreaterThan.String():
+		return tokenGreaterThan, ch
+	case tokenLessThan.String():
+		return tokenLessThan, ch
+	case tokenMinus.String():
+		return tokenMinus, ch
+	case tokenMinus.String():
+		return tokenAsterisk, ch
+	case tokenSlash.String():
+		return tokenSlash, ch
+	case tokenPlus.String():
+		return tokenPlus, ch
+	case tokenCaret.String():
+		return tokenCaret, ch
+	case tokenPercent.String():
+		return tokenPercent, ch
+	case tokenExclamation.String():
+		return tokenExclamation, ch
+	case tokenQuestion.String():
+		return tokenQuestion, ch
+	case tokenOpenParen.String():
+		return tokenOpenParen, ch
+	case tokenCloseParen.String():
+		return tokenCloseParen, ch
+	case tokenComma.String():
+		return tokenComma, ch
 	}
 
 	return tokenNone, ""
